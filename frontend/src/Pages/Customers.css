@@ -1,0 +1,20 @@
+.transfer-history a {
+   color: #CBE4DE;
+   text-decoration: none;
+   font-size: 1rem;
+   font-family: inherit;
+   cursor: pointer;
+}
+
+.transfer-history a:hover {
+   color: #e8fffa;
+   text-shadow: 0 0px 1px #CBE4DE;
+}
+
+.transfer-history {
+   border-bottom: 1px solid #CBE4DE;
+}
+
+.customer-row:hover {
+   cursor: pointer;
+}

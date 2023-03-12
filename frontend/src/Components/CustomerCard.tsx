@@ -1,20 +1,20 @@
 import React, { MouseEventHandler } from 'react'
 import './CustomerCard.css'
 
-interface CustomerFields {
+interface Customer {
    _id: string;
    name: string;
    email: string;
    balance: number;
 }
 
-interface Customer {
-   customer: CustomerFields;
+interface CustomerCardProps {
+   customer: Customer;
    onClick: MouseEventHandler<HTMLDivElement>;
 }
 
 
-const CustomerCard: React.FC<Customer> = ({ customer, onClick }) => {
+const CustomerCard: React.FC<CustomerCardProps> = ({ customer, onClick }) => {
    return (
       <div className="card" onClick={onClick}>
          <div>

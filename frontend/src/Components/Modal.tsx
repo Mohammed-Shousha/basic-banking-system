@@ -9,7 +9,7 @@ type Props = {
 
 
 const Modal: React.FC<Props> = ({ showModal, onClose, children }) => (
-   <div>
+   <>
       {showModal &&
          <div className="modal">
             <div className="modal-content">
@@ -18,7 +18,7 @@ const Modal: React.FC<Props> = ({ showModal, onClose, children }) => (
             </div>
          </div>
       }
-   </div>
+   </>
 );
 
 export default Modal;

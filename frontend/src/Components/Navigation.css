@@ -1,6 +1,6 @@
 nav {
    width: 100vw;
-   background-color: #003e54;
+   background-color: #2E4F4F;
    padding: 1rem;
    box-sizing: border-box;
    z-index: 100;
@@ -19,15 +19,15 @@ li {
    margin-right: 7rem;
 }
 
-a {
-   color: #dddddd;
+li a {
+   color: #CBE4DE;
    font-weight: bold;
    font-size: 2rem;
    text-decoration: none;
+   transition: text-shadow 0.25s;
 }
 
-a:hover {
-   /* text-decoration: underline; */
-   color: #ffffff;
-   text-shadow: 0 0 3px #dddddd;
+li a:hover {
+   color: #e8fffa;
+   text-shadow: 0 1px 3px #CBE4DE;
 }

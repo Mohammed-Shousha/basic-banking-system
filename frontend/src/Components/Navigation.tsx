@@ -1,6 +1,6 @@
 import React from "react"
 import "./Navigation.css"
-import { Link } from "react-router-dom"
+import { Link, Outlet } from "react-router-dom"
 
 
 const Navigation: React.FC = () => {
@@ -21,15 +21,18 @@ const Navigation: React.FC = () => {
    ]
 
    return (
-      <nav>
-         <ul>
-            {links.map((link) => (
-               <li key={link.title}>
-                  <Link to={link.href}>{link.title}</Link>
-               </li>
-            ))}
-         </ul>
-      </nav>
+      <>
+         <nav>
+            <ul>
+               {links.map((link) => (
+                  <li key={link.title}>
+                     <Link to={link.href}>{link.title}</Link>
+                  </li>
+               ))}
+            </ul>
+         </nav>
+         <Outlet />
+      </>
    )
 }
 
