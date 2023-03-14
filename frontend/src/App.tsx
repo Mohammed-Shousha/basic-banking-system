@@ -10,12 +10,12 @@ import CustomerHistory from "./Pages/CustomerHistory"
 const App: React.FC = () => (
    <Routes>
       <Route element={<Navigation />} >
-         <Route path='/' element={<Home />} />
+         <Route path='/home' element={<Home />} />
          <Route path="customers" element={<CustomersPage />} />
          <Route path="transfers" element={<TransfersPage />} />
          <Route path="customers/:id" element={<CustomerHistory />} />
       </Route>
-      <Route path='/start' element={<Start />} />
+      <Route path='/' element={<Start />} />
       <Route path="*" element={<h1> NOT FOUND 404 </h1>} />
    </Routes>
 )
