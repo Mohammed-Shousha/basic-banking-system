@@ -9,7 +9,7 @@ const Start: React.FC = () => (
       <div className='left'>
          <h1>Welcome to Banking System</h1>
          <h3>Secure and easy way to transfer money.</h3>
-         <Link to='/'>
+         <Link to='/home'>
             <button>
                Get Started
             </button>
