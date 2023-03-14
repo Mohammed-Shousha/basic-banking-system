@@ -5,7 +5,6 @@ import { MongoClient, ObjectId } from 'mongodb'
 
 dotenv.config()
 
-
 const app = express()
 const { MONGO_URI, PORT } = process.env
 
@@ -15,51 +14,48 @@ const db = client.db('Banking-System')
 const customers = db.collection('Customers')
 const transfers = db.collection('Transfers')
 
-
-const idToName = async (transfers) => {
-   const result = await customers.find().toArray()
-
-   const idToName = {}
-   result.forEach((customer) => {
-      idToName[customer._id] = customer.name
-   })
-
-   transfers.forEach((transfer) => {
-      transfer.from = idToName[transfer.from]
-      transfer.to = idToName[transfer.to]
-   })
-
-   return transfers
-}
+const lookup = [
+   {
+      $lookup: {
+         from: 'Customers',
+         localField: 'from',
+         foreignField: '_id',
+         as: 'from_customer',
+      },
+   },
+   {
+      $lookup: {
+         from: 'Customers',
+         localField: 'to',
+         foreignField: '_id',
+         as: 'to_customer',
+      },
+   },
+   {
+      $addFields: {
+         from: { $arrayElemAt: ['$from_customer.name', 0] },
+         to: { $arrayElemAt: ['$to_customer.name', 0] }
+      }
+   },
+   {
+      $project: {
+         from_customer: 0,
+         to_customer: 0,
+      },
+   }
+]
 
 app.use(express.json())
 app.use(cors())
-
 
 app.get('/', (_, res) => {
    res.send('Banking System API')
 })
 
-// app.post('/addUsers', async (req, res) => {
-//    const result = await customers.insertMany(dummeyData)
-//    res.send(result)
-// })
-
-// app.post('/deleteUsers', async (req, res) => {
-//    const result = await customers.deleteMany({})
-//    res.send(result)
-// })
-
-
-// app.post('/clearTransfers', async (req, res) => {
-//    const result = await transfers.deleteMany({})
-//    res.send(result)
-// })
-
 app.post('/addTransfer', async (req, res) => {
    const { fromId, toId, amount } = req.body
-   
-   if(!fromId || !toId || !amount) {
+
+   if (!fromId || !toId || !amount) {
       return res.send({ error: 'Invalid Data' })
    }
 
@@ -77,16 +73,19 @@ app.post('/addTransfer', async (req, res) => {
       { _id: new ObjectId(fromId) },
       { $inc: { balance: -amount } }
    )
+
    await customers.updateOne(
       { _id: new ObjectId(toId) },
       { $inc: { balance: amount } }
    )
+
    const result = await transfers.insertOne({
-      from: fromId,
-      to: toId,
+      from: new ObjectId(fromId),
+      to: new ObjectId(toId),
       amount,
       date: new Date(),
    })
+
    return res.json(result)
 })
 
@@ -96,36 +95,29 @@ app.get('/customers', async (_, res) => {
 })
 
 app.get('/transfers', async (_, res) => {
-   const result = await transfers.find().toArray()
+   const result = await transfers.aggregate(lookup).toArray()
 
-   const allTransfers = await idToName(result)
-
-   allTransfers.sort((a, b) => {
+   result.sort((a, b) => {
       return new Date(b.date) - new Date(a.date)
    })
 
-   return res.json(allTransfers)
+   return res.json(result)
 })
 
 app.get('/customers/:id', async (req, res) => {
    const { id } = req.params
+
    const result = await customers.findOne({ _id: new ObjectId(id) })
-   return res.json(result)
-})
 
-app.get('/customerTransfers/:id', async (req, res) => {
-   const { id } = req.params
-   const transfersFrom = await transfers.find({ from: id }).toArray()
-   const transfersTo = await transfers.find({ to: id }).toArray()
+   const transfersFrom = await transfers.aggregate([{ $match: { from: new ObjectId(id) } }, ...lookup]).toArray()
+   const transfersTo = await transfers.aggregate([{ $match: { to: new ObjectId(id) } }, ...lookup]).toArray()
    const allTransfers = [...transfersFrom, ...transfersTo]
-
-   const userTransfers = await idToName(allTransfers)
-
-   userTransfers.sort((a, b) => {
+   
+   allTransfers.sort((a, b) => {
       return new Date(b.date) - new Date(a.date)
    })
-
-   return res.json(userTransfers)
+   
+   return res.json({ customer: result, transfers: allTransfers })
 })
 
 
