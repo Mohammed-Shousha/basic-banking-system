@@ -5,7 +5,7 @@ import "./Navigation.css"
 const links = [
    {
       title: "Home",
-      href: "/"
+      href: "/home"
    },
    {
       title: "Customers",
