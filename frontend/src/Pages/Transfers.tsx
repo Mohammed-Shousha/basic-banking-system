@@ -7,7 +7,7 @@ const TransfersPage: React.FC = () => {
    const [transfers, setTransfers] = useState<Transfer[]>([])
 
    const fetchTransfers = async () => {
-      const response = await fetch("http://localhost:5000/transfers")
+      const response = await fetch("https://banking-system-backend-nnxb.onrender.com/transfers")
       const transfers = await response.json()
       setTransfers(transfers)
    }

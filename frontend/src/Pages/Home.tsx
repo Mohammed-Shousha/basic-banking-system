@@ -17,7 +17,7 @@ const Home: React.FC = () => {
    const [alertMessage, setAlertMessage] = useState<string>("")
 
    const fetchCustomers = async () => {
-      const response = await fetch('http://localhost:5000/customers')
+      const response = await fetch('https://banking-system-backend-nnxb.onrender.com/customers')
       const customers = await response.json()
       setCustomers(customers)
    }
@@ -61,7 +61,7 @@ const Home: React.FC = () => {
 
 
    const handleSubmit = async () => {
-      const response = await fetch('http://localhost:5000/addTransfer', {
+      const response = await fetch('https://banking-system-backend-nnxb.onrender.com/addTransfer', {
          method: 'POST',
          headers: {
             'Content-Type': 'application/json',

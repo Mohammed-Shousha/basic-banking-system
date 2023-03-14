@@ -13,7 +13,7 @@ const CustomerHistory: React.FC = () => {
    const [loading, setLoading] = useState(true)
 
    const fetchData = async () => {
-      const response = await fetch(`http://localhost:5000/customers/${id}`)
+      const response = await fetch(`https://banking-system-backend-nnxb.onrender.com/customers/${id}`)
       const { customer, transfers } = await response.json()
       setCustomer(customer)
       setCustomerTransfers(transfers)
