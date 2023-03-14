@@ -6,7 +6,7 @@
    margin: 0rem;
 }
 
-.customer-details > h3 {
+.customer-details>h3 {
    margin-left: 2rem;
    color: #e8fffa;
 }
@@ -16,4 +16,27 @@
    flex-direction: column;
    align-items: center;
    font-size: 2rem;
+}
+
+.loading-spinner {
+   display: flex;
+   flex-direction: column;
+   height: 70vh;
+   justify-content: center;
+   align-items: center;
+}
+
+.spinner {
+   border: 10px solid rgba(0, 0, 0, 0.4);
+   border-top-color: #CBE4DE;
+   border-radius: 50%;
+   width: 50px;
+   height: 50px;
+   animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+   to {
+      transform: rotate(360deg);
+   }
 }

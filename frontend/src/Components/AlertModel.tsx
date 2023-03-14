@@ -1,13 +1,14 @@
-import React from 'react';
-import './AlertModal.css';
+import React from 'react'
+import './AlertModal.css'
 
-interface Props {
-   showAlert: boolean;
-   onClose: () => void;
-   message: string;
+
+interface AlertProps {
+   showAlert: boolean
+   onClose: () => void
+   message: string
 }
 
-const AlertModal: React.FC<Props> = ({ showAlert, onClose, message }) => (
+const AlertModal: React.FC<AlertProps> = ({ showAlert, onClose, message }) => (
    <>
       {showAlert &&
          <div className="modal-overlay">
@@ -19,4 +20,4 @@ const AlertModal: React.FC<Props> = ({ showAlert, onClose, message }) => (
    </>
 )
 
-export default AlertModal;
+export default AlertModal

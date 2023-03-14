@@ -11,7 +11,7 @@
    align-items: center;
 }
 
-.amount > input {
+.amount>input {
    width: 15rem;
    height: 2rem;
    border: 1px solid #0E8388;
@@ -35,13 +35,13 @@
    height: 3rem;
 }
 
-.customer-card > p{
-   font-size: small;
+.customer-card>p {
+   font-size: 0.9rem;
    display: flex;
    flex-direction: column;
    align-items: center;
 }
- 
+
 .swap {
    font-size: 1.75rem;
    cursor: pointer;

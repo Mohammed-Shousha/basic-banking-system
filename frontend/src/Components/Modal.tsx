@@ -1,14 +1,14 @@
 import React from "react"
 import "./Modal.css"
 
-type Props = {
-   showModal: boolean;
-   onClose: () => void;
-   children: React.ReactNode;
-};
 
+interface ModalProps {
+   showModal: boolean
+   onClose: () => void
+   children: React.ReactNode
+}
 
-const Modal: React.FC<Props> = ({ showModal, onClose, children }) => (
+const Modal: React.FC<ModalProps> = ({ showModal, onClose, children }) => (
    <>
       {showModal &&
          <div className="modal">
@@ -19,6 +19,6 @@ const Modal: React.FC<Props> = ({ showModal, onClose, children }) => (
          </div>
       }
    </>
-);
+)
 
-export default Modal;
+export default Modal

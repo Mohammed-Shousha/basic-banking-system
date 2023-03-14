@@ -25,11 +25,11 @@
    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.modal-container > button {
+.modal-container>button {
    background-color: #2E4F4F;
 }
 
-.modal-container > p {
+.modal-container>p {
    color: #e8fffa;
    font-size: 1.25rem;
    font-weight: 600;

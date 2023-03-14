@@ -10,12 +10,11 @@
    justify-content: space-between;
    align-items: center;
    background-color: #1a1a1a;
-   color:#e8fffa;
+   color: #e8fffa;
    transition: box-shadow 0.15s;
-
 }
 
-.card:hover{
+.card:hover {
    box-shadow: 0px 0px 10px #e8fffa;
    cursor: pointer;
 }

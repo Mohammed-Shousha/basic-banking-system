@@ -4,57 +4,32 @@ import CustomerCard from '../Components/CustomerCard'
 import Modal from '../Components/Modal'
 import './Home.css'
 
-interface Customer {
-   _id: string
-   name: string
-   email: string
-   balance: number
-}
-
 
 const Home: React.FC = () => {
 
    const [customers, setCustomers] = useState<Customer[]>([])
    const [fromId, setFromId] = useState<string>()
    const [toId, setToId] = useState<string>()
-   const [updateFrom, setUpdateFrom] = useState<boolean>(true);
+   const [updateFrom, setUpdateFrom] = useState<boolean>(true)
    const [amount, setAmount] = useState<string>("")
    const [showModal, setShowModal] = useState<boolean>(false)
    const [showAlert, setShowAlert] = useState<boolean>(false)
    const [alertMessage, setAlertMessage] = useState<string>("")
 
-
    const fetchCustomers = async () => {
       const response = await fetch('http://localhost:5000/customers')
-      const data = await response.json()
-      setCustomers(data)
+      const customers = await response.json()
+      setCustomers(customers)
    }
 
-   const convertTo2DArray = (arr: Customer[]): Customer[][] => {
-      const cols = Math.ceil(arr.length / 2)
-      const rows = Math.ceil(arr.length / cols)
-      const result = []
-
-      for (let i = 0; i < rows; i++) {
-         const row = []
-
-         for (let j = 0; j < cols; j++) {
-            const index = i * cols + j
-
-            if (index < arr.length) {
-               row.push(arr[index])
-            }
-         }
-
-         result.push(row)
-      }
-
-      return result
-   }
-
-   const handleShowModal = (from: boolean = true) => {
+   const handleFromModal = () => {
       setShowModal(true)
-      setUpdateFrom(from)
+      setUpdateFrom(true)
+   }
+
+   const handleToModal = () => {
+      setShowModal(true)
+      setUpdateFrom(false)
    }
 
    const handleCloseModal = () => {
@@ -98,7 +73,7 @@ const Home: React.FC = () => {
          }),
 
       })
-      
+
       const data = await response.json()
 
       if (data.acknowledged) {
@@ -125,34 +100,34 @@ const Home: React.FC = () => {
                   <div className='customer-card'>
                      <CustomerCard
                         customer={customers.find(customer => customer._id === fromId) as Customer}
-                        onClick={() => handleShowModal()}
+                        onClick={handleFromModal}
                      />
                      <p>Click the card to select another customer</p>
                   </div>
                   :
-                  <button onClick={() => handleShowModal()}>Select Customer</button>
+                  <button onClick={handleFromModal}>Select Customer</button>
                }
             </div>
+
             {fromId && toId &&
                <div className='swap' onClick={handleSwap}>⇆</div>
             }
+
             <div>
                <h2>To</h2>
                {toId ?
                   <div className='customer-card'>
                      <CustomerCard
                         customer={customers.find(customer => customer._id === toId) as Customer}
-                        onClick={() => handleShowModal(false)}
+                        onClick={handleToModal}
                      />
                      <p>Click the card to select another customer</p>
                   </div>
                   :
-                  <button onClick={() => handleShowModal(false)}>Select Customer</button>
+                  <button onClick={handleToModal}>Select Customer</button>
                }
             </div>
          </div>
-
-
 
          <div className='amount'>
             <h2>Amount:</h2>
@@ -164,15 +139,13 @@ const Home: React.FC = () => {
          </div>
 
          <Modal showModal={showModal} onClose={handleCloseModal}>
-            {convertTo2DArray(customers.filter(customer => customer._id !== fromId && customer._id !== toId)).map((customersArr, i) => (
-               <div key={i}>
-                  {customersArr.map((customer) => (
-                     <CustomerCard
-                        key={customer._id}
-                        customer={customer}
-                        onClick={() => updateFrom ? handleFromCustomer(customer._id) : handleToCustomer(customer._id)}
-                     />
-                  ))}
+            {customers.filter(customer => customer._id !== fromId && customer._id !== toId).map((customer) => (
+               <div key={customer._id}>
+                  <CustomerCard
+                     key={customer._id}
+                     customer={customer}
+                     onClick={() => updateFrom ? handleFromCustomer(customer._id) : handleToCustomer(customer._id)}
+                  />
                </div>
             ))}
          </Modal>
